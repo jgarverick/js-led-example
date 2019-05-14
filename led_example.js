@@ -61,6 +61,16 @@ replServer.context.quit = function () {
 	gpio.reset();
 	gpio.destroy(function (err) {
 		if (err) winston.log("error", err);
-		
+
 	});
+}
+
+replServer.context.help = function () {
+	replServer.write("Example help =====================================");
+	replServer.write("Methods:");
+	replServer.write("on(color) => Turns on the LED by name (red, yellow, green)");
+	replServer.write("off(color) => Turns off the LED by name (red, yellow, green)");
+	replServer.write("quit() => Resets the rpi-gpio controls and releases it from memory");
+	replServer.write("===> Please note that you must still type '.exit' or hit CTRL + c to fully exit the REPL environment.");
+	
 }
