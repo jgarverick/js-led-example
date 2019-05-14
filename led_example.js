@@ -1,16 +1,19 @@
 var gpio = require("rpi-gpio");
 var repl = require('repl');
 var timer = require('sleep');
+var winston = require('winston');
+
 var red = 40;
 var yellow = 37;
 var green = 12;
 
 gpio.on('export', function (channel) {
-	console.log('Channel set: ' + channel);
+	//console.log('Channel set: ' + channel);
+	winston.log("info", 'Channel set: ' + channel);
 });
 
 gpio.on('change', function (channel, value) {
-	console.log('Channel ' + channel + ' value is now ' + value);
+	winston.log("info", 'Channel ' + channel + ' value is now ' + value);
 });
 
 //gpio.setMode(gpio.MODE_BCM);
@@ -21,7 +24,7 @@ gpio.setup(red, gpio.DIR_OUT);
 
 function write(pin, value) {
 	gpio.write(pin, value, function (err) {
-		if (err) console.log(err);
+		if (err) winston.log("error", err);
 	});
 }
 
@@ -57,7 +60,7 @@ replServer.context.blink = function (color, duration, times) {
 replServer.context.quit = function () {
 	gpio.reset();
 	gpio.destroy(function (err) {
-		if (err) console.log(err);
+		if (err) winston.log("error", err);
 		
 	});
 }
