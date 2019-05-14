@@ -1,6 +1,6 @@
 var gpio = require("rpi-gpio");
 var repl = require('repl');
-
+var timer = require('sleep');
 var red = 40;
 var yellow = 37;
 var green = 12;
@@ -41,25 +41,19 @@ replServer.context.on = function (color) {
 replServer.context.off = function (color) {
 	write(color, false);
 }
-
+/*
 replServer.context.blink = function (color, duration, times) {
 	var isOn = false;
-	gpio.read(color, function (err, value) {
-		if (err) { console.log(err); }
-		else { isOn = value; }
-		return value;
-	});
 	if (times == null) times = 4;
-	if (duration == null) duration = 500;
+	if (duration == null) duration = 1;
 	for (var i = 0; i < times; i++) {
 		isOn = !isOn;
+                console.log("Current LED state: " + isOn);
 		write(color, isOn);
-		setTimeout(function (color, isOn) {
-			write(color, !isOn);
-		}, duration);
+		timer.sleep(duration);
 	}
 }
-
+*/
 replServer.context.quit = function () {
 	gpio.reset();
 	gpio.destroy(function (err) {
